@@ -4,57 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Rifa Express Pro (Aesthetic)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --primario: #3b82f6; /* Un azul más suave */
-            --ocupado: #f87171;   /* Un rojo más pastel */
-            --texto: #1e293b;
-            --texto-claro: #f1f5f9;
+            --primario: #3b82f6; /* Azul moderno */
+            --ocupado: #f87171;   /* Rojo pastel suave */
+            --texto: #0f172a;    /* Azul marino oscuro para el título */
+            --texto-grilla: #1e293b;
+            --verde-trans: rgba(16, 185, 129, 0.9);
+            --gris-trans: rgba(148, 163, 184, 0.7);
         }
 
         body { 
-            font-family: 'Poppins', sans-serif; /* O una tipografía sans-serif nativa */
+            font-family: 'Poppins', sans-serif; /* Usamos Poppins */
             text-align: center; 
             margin: 0; padding: 15px; 
-            user-select: none; color: var(--texto);
+            user-select: none; 
             
             /* --- FONDO PERSONALIZADO --- */
-            background-image: url('fondorifa.png'); /* Asegúrate de que el nombre coincida exactamente con la extensión */
-            background-size: cover; /* Cubre toda la pantalla */
-            background-position: center; /* Centra la imagen */
-            background-attachment: fixed; /* El fondo no se mueve al hacer scroll */
+            background-image: url('fondorifa.png'); /* Asegúrate de que el nombre y extensión coincidan */
+            background-size: cover; 
+            background-position: center; 
+            background-attachment: fixed; 
         }
         
         h1 { 
-            margin: 30px 0 30px 0; font-size: 2.2rem; font-weight: 800; 
-            color: #1e293b; /* Color oscuro para el título */
-            text-shadow: 1px 1px 0 #fff; /* Sombra blanca sutil para mejor legibilidad */
+            margin: 40px 0 35px 0; font-size: 2.3rem; font-weight: 800; 
+            color: var(--texto);
+            text-shadow: 2px 2px 0 #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff; /* Sombra blanca nítida */
         }
         
         .grid { 
             display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; 
             max-width: 380px; margin: 0 auto; 
-            background: rgba(255, 255, 255, 0.9); /* Fondo blanco translúcido para la grilla */
+            
+            /* --- GRILLA MÁS TRANSLÚCIDA (¡CAMBIO AQUÍ!) --- */
+            background: rgba(255, 255, 255, 0.65); /* Más translúcido */
+            
             padding: 15px;
-            border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
-            backdrop-filter: blur(5px); /* Efecto borroso sutil bajo la grilla */
+            border-radius: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            
+            /* --- MÁS DESENFOQUE BAJO LA GRILLA --- */
+            backdrop-filter: blur(8px); /* Más desenfoque para resaltar los números */
         }
         
         .numero { 
             aspect-ratio: 1 / 1; 
-            background-color: white; /* Color de fondo para números disponibles */
+            background-color: white; 
             border: 1px solid #e2e8f0; 
             display: flex; align-items: center; justify-content: center; 
-            cursor: pointer; font-weight: 700; font-size: 1.1rem; border-radius: 10px;
+            cursor: pointer; font-weight: 600; font-size: 1.15rem; border-radius: 12px;
             -webkit-tap-highlight-color: transparent;
             transition: 0.1s;
+            color: var(--texto-grilla);
         }
         .numero:active { transform: scale(0.95); }
         
         .ocupado { 
-            background-color: #fee2e2; /* Fondo rojo pastel suave */
+            background-color: #fee2e2; 
             border-color: #fca5a5; 
-            color: #ef4444; /* Rojo para la X y el texto */
+            color: #ef4444; /* Rojo para la X */
+            font-weight: 800; /* X más gruesa */
         }
 
         /* MODAL */
@@ -63,7 +73,7 @@
             background: rgba(0, 0, 0, 0.6); align-items: center; justify-content: center; z-index: 1000;
         }
         .modal-content {
-            background: white; padding: 30px; border-radius: 20px; width: 85%; max-width: 340px;
+            background: white; padding: 30px; border-radius: 24px; width: 85%; max-width: 340px;
             box-shadow: 0 25px 50px -12px rgba(0,0,0,0.2); text-align: left;
             animation: fadeIn 0.3s;
         }
@@ -71,26 +81,34 @@
         
         #modal-input {
             display: none; width: 100%; padding: 12px 15px; margin-bottom: 20px;
-            border: 2px solid #e2e8f0; border-radius: 10px; font-size: 1rem; box-sizing: border-box; outline: none;
+            border: 2px solid #e2e8f0; border-radius: 12px; font-size: 1rem; box-sizing: border-box; outline: none;
+            font-family: 'Poppins', sans-serif;
         }
         .modal-buttons { display: flex; gap: 10px; justify-content: flex-end; }
-        .btn { padding: 12px 20px; border-radius: 10px; font-weight: 600; font-size: 0.95rem; border: none; cursor: pointer; transition: 0.1s; }
+        .btn { padding: 12px 20px; border-radius: 12px; font-weight: 600; font-size: 0.95rem; border: none; cursor: pointer; transition: 0.1s; font-family: 'Poppins', sans-serif; }
         .btn:active { transform: scale(0.97); }
         .btn-primario { background-color: var(--primario); color: white; flex-grow: 1; }
         .btn-secundario { background-color: #e2e8f0; color: #475569; }
-        .btn-danger { background-color: var(--ocupado); color: white; flex-grow: 1; }
+        .btn-danger { background-color: #ef4444; color: white; flex-grow: 1; }
 
-        /* BOTONES DE ABAJO */
-        .controles { margin-top: 50px; display: flex; flex-direction: column; align-items: center; gap: 15px; padding-bottom: 20px; }
-        .btn-backup { 
-            background-color: rgba(16, 185, 129, 0.9); /* Verde translúcido */
-            color: white; width: 60%; padding: 12px; border-radius: 10px; border: none; font-weight: 600; 
+        /* --- BOTONES ACORTADOS (¡CAMBIO AQUÍ!) --- */
+        .controles { margin-top: 50px; display: flex; flex-direction: column; align-items: center; gap: 15px; padding-bottom: 30px; }
+        .btn-control { 
+            width: 50%; /* Más cortos, la mitad de la pantalla */
+            padding: 12px; border-radius: 12px; border: none; font-weight: 600; 
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             backdrop-filter: blur(2px);
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        .btn-backup { 
+            background-color: var(--verde-trans);
+            color: white; 
         }
         .btn-limpiar { 
-            background-color: rgba(148, 163, 184, 0.7); /* Gris translúcido */
-            color: #1e293b; border: none; border-radius: 10px; width: 60%; padding: 10px; font-size: 0.8rem; font-weight: 600; 
+            background-color: var(--gris-trans);
+            color: #1e293b; 
         }
     </style>
 </head>
@@ -110,8 +128,8 @@
     </div>
 
     <div class="controles">
-        <button class="btn-backup" onclick="descargarBackup()">💾 Descargar Respaldo</button>
-        <button class="btn-limpiar" onclick="pedirLimpieza()">Reiniciar Tablero</button>
+        <button class="btn-control btn-backup" onclick="descargarBackup()">💾 Respaldo</button>
+        <button class="btn-control btn-limpiar" onclick="pedirLimpieza()">Reiniciar</button>
     </div>
 
     <script>
@@ -142,7 +160,7 @@
             modalInput.value = '';
             if (participantes[numero]) {
                 mostrarModal("Número " + numero, "Este número ha sido comprado por:", false, "cerrar");
-                modalTexto.innerHTML += "<br><strong style='font-size:1.6rem; color:#1e293b;'>" + participantes[numero] + "</strong>";
+                modalTexto.innerHTML += "<br><strong style='font-size:1.6rem; color:#ef4444;'>" + participantes[numero] + "</strong>";
             } else {
                 mostrarModal("Número " + numero, "¿A quién le asignamos este número?", true, "confirmarVenta");
             }
@@ -187,7 +205,7 @@
                 }
             }
             if (!tieneDatos) {
-                alert("La lista está vacía actualmente.");
+                mostrarModal("Aviso", "La lista está vacía.", false, "cerrar");
                 return;
             }
             const blob = new Blob([texto], { type: "text/plain;charset=utf-8" });
