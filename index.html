@@ -3,51 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Rifa Express Pro</title>
+    <title>Rifa Express Pro (Aesthetic)</title>
     <style>
-        :root { --primario: #2563eb; --ocupado: #ef4444; --fondo: #f8fafc; --texto: #1e293b; --gris: #94a3b8; }
-        body { font-family: sans-serif; text-align: center; background-color: var(--fondo); margin: 0; padding: 15px; user-select: none; color: var(--texto); }
-        h1 { margin: 30px 0 10px 0; font-size: 2rem; font-weight: 800; }
+        :root { 
+            --primario: #3b82f6; /* Un azul más suave */
+            --ocupado: #f87171;   /* Un rojo más pastel */
+            --texto: #1e293b;
+            --texto-claro: #f1f5f9;
+        }
+
+        body { 
+            font-family: 'Poppins', sans-serif; /* O una tipografía sans-serif nativa */
+            text-align: center; 
+            margin: 0; padding: 15px; 
+            user-select: none; color: var(--texto);
+            
+            /* --- FONDO PERSONALIZADO --- */
+            background-image: url('fondorifa.png'); /* Asegúrate de que el nombre coincida exactamente con la extensión */
+            background-size: cover; /* Cubre toda la pantalla */
+            background-position: center; /* Centra la imagen */
+            background-attachment: fixed; /* El fondo no se mueve al hacer scroll */
+        }
+        
+        h1 { 
+            margin: 30px 0 30px 0; font-size: 2.2rem; font-weight: 800; 
+            color: #1e293b; /* Color oscuro para el título */
+            text-shadow: 1px 1px 0 #fff; /* Sombra blanca sutil para mejor legibilidad */
+        }
         
         .grid { 
             display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; 
-            max-width: 380px; margin: 0 auto; background: white; padding: 15px;
+            max-width: 380px; margin: 0 auto; 
+            background: rgba(255, 255, 255, 0.9); /* Fondo blanco translúcido para la grilla */
+            padding: 15px;
             border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            backdrop-filter: blur(5px); /* Efecto borroso sutil bajo la grilla */
         }
         
         .numero { 
-            aspect-ratio: 1 / 1; background-color: #fff; border: 1px solid #e2e8f0; 
+            aspect-ratio: 1 / 1; 
+            background-color: white; /* Color de fondo para números disponibles */
+            border: 1px solid #e2e8f0; 
             display: flex; align-items: center; justify-content: center; 
             cursor: pointer; font-weight: 700; font-size: 1.1rem; border-radius: 10px;
             -webkit-tap-highlight-color: transparent;
+            transition: 0.1s;
         }
+        .numero:active { transform: scale(0.95); }
         
-        .ocupado { background-color: #fee2e2; border-color: var(--ocupado); color: var(--ocupado); }
+        .ocupado { 
+            background-color: #fee2e2; /* Fondo rojo pastel suave */
+            border-color: #fca5a5; 
+            color: #ef4444; /* Rojo para la X y el texto */
+        }
 
         /* MODAL */
         #custom-modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.75); align-items: center; justify-content: center; z-index: 1000;
-            backdrop-filter: blur(3px);
+            background: rgba(0, 0, 0, 0.6); align-items: center; justify-content: center; z-index: 1000;
         }
         .modal-content {
-            background: white; padding: 30px; border-radius: 24px; width: 85%; max-width: 340px;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); text-align: left;
+            background: white; padding: 30px; border-radius: 20px; width: 85%; max-width: 340px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.2); text-align: left;
+            animation: fadeIn 0.3s;
         }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        
         #modal-input {
             display: none; width: 100%; padding: 12px 15px; margin-bottom: 20px;
             border: 2px solid #e2e8f0; border-radius: 10px; font-size: 1rem; box-sizing: border-box; outline: none;
         }
         .modal-buttons { display: flex; gap: 10px; justify-content: flex-end; }
-        .btn { padding: 12px 20px; border-radius: 10px; font-weight: 600; font-size: 0.95rem; border: none; cursor: pointer; }
+        .btn { padding: 12px 20px; border-radius: 10px; font-weight: 600; font-size: 0.95rem; border: none; cursor: pointer; transition: 0.1s; }
+        .btn:active { transform: scale(0.97); }
         .btn-primario { background-color: var(--primario); color: white; flex-grow: 1; }
         .btn-secundario { background-color: #e2e8f0; color: #475569; }
         .btn-danger { background-color: var(--ocupado); color: white; flex-grow: 1; }
 
         /* BOTONES DE ABAJO */
-        .controles { margin-top: 40px; display: flex; flex-direction: column; align-items: center; gap: 15px; }
-        .btn-backup { background-color: #10b981; color: white; width: 60%; padding: 12px; border-radius: 10px; border: none; font-weight: 600; }
-        .btn-limpiar { background-color: var(--gris); color: white; border: none; border-radius: 10px; width: 60%; padding: 10px; font-size: 0.8rem; opacity: 0.6; }
+        .controles { margin-top: 50px; display: flex; flex-direction: column; align-items: center; gap: 15px; padding-bottom: 20px; }
+        .btn-backup { 
+            background-color: rgba(16, 185, 129, 0.9); /* Verde translúcido */
+            color: white; width: 60%; padding: 12px; border-radius: 10px; border: none; font-weight: 600; 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(2px);
+        }
+        .btn-limpiar { 
+            background-color: rgba(148, 163, 184, 0.7); /* Gris translúcido */
+            color: #1e293b; border: none; border-radius: 10px; width: 60%; padding: 10px; font-size: 0.8rem; font-weight: 600; 
+        }
     </style>
 </head>
 <body>
@@ -60,13 +104,13 @@
         <div class="modal-content">
             <h3 id="modal-titulo"></h3>
             <p id="modal-texto"></p>
-            <input type="text" id="modal-input" placeholder="Nombre del comprador...">
+            <input type="text" id="modal-input" placeholder="Nombre completo...">
             <div class="modal-buttons" id="modal-actions"></div>
         </div>
     </div>
 
     <div class="controles">
-        <button class="btn-backup" onclick="descargarBackup()">💾 Descargar Lista (Respaldo)</button>
+        <button class="btn-backup" onclick="descargarBackup()">💾 Descargar Respaldo</button>
         <button class="btn-limpiar" onclick="pedirLimpieza()">Reiniciar Tablero</button>
     </div>
 
@@ -97,10 +141,10 @@
             numeroEnGestion = numero;
             modalInput.value = '';
             if (participantes[numero]) {
-                mostrarModal("Número " + numero, "Comprador:", false, "cerrar");
-                modalTexto.innerHTML += "<br><strong style='font-size:1.5rem;'>" + participantes[numero] + "</strong>";
+                mostrarModal("Número " + numero, "Este número ha sido comprado por:", false, "cerrar");
+                modalTexto.innerHTML += "<br><strong style='font-size:1.6rem; color:#1e293b;'>" + participantes[numero] + "</strong>";
             } else {
-                mostrarModal("Número " + numero, "¿Quién compra?", true, "confirmarVenta");
+                mostrarModal("Número " + numero, "¿A quién le asignamos este número?", true, "confirmarVenta");
             }
         }
 
@@ -115,7 +159,7 @@
                 modalActions.innerHTML = '<button class="btn btn-secundario" onclick="cerrarModal()">Cancelar</button><button class="btn btn-primario" onclick="confirmarVenta()">Guardar</button>';
                 setTimeout(() => modalInput.focus(), 150);
             } else if (tipoBotones === "confirmarLimpieza") {
-                modalActions.innerHTML = '<button class="btn btn-secundario" onclick="cerrarModal()">No</button><button class="btn btn-danger" onclick="limpiarTodo()">Sí, borrar</button>';
+                modalActions.innerHTML = '<button class="btn btn-secundario" onclick="cerrarModal()">No, cancelar</button><button class="btn btn-danger" onclick="limpiarTodo()">Sí, borrar</button>';
             }
             modal.style.display = 'flex';
         }
@@ -132,18 +176,28 @@
         }
 
         function descargarBackup() {
-            let texto = "LISTA DE RIFA EXPRESS\n\n";
+            let texto = "LISTA DE RIFA EXPRESS (30 NÚMEROS)\n\n";
+            let tieneDatos = false;
             for (let i = 1; i <= TOTAL_NUMEROS; i++) {
-                texto += i + ": " + (participantes[i] || "DISPONIBLE") + "\n";
+                if (participantes[i]) {
+                    texto += i + ": " + participantes[i] + "\n";
+                    tieneDatos = true;
+                } else {
+                    texto += i + ": DISPONIBLE\n";
+                }
             }
-            const blob = new Blob([texto], { type: "text/plain" });
+            if (!tieneDatos) {
+                alert("La lista está vacía actualmente.");
+                return;
+            }
+            const blob = new Blob([texto], { type: "text/plain;charset=utf-8" });
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
             link.download = "respaldo_rifa.txt";
             link.click();
         }
 
-        function pedirLimpieza() { mostrarModal("¿Reiniciar?", "Se borrarán todos los nombres.", false, "confirmarLimpieza"); }
+        function pedirLimpieza() { mostrarModal("¿Reiniciar?", "Se borrarán todos los nombres de la lista.", false, "confirmarLimpieza"); }
         function limpiarTodo() { participantes = {}; localStorage.removeItem('rifa_30_datos'); crearRifa(); cerrarModal(); }
 
         crearRifa();
