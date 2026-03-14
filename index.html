@@ -3,31 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Rifa Express</title>
+    <title>Rifa Express 30</title>
     <style>
-        :root { --primario: #2563eb; --ocupado: #ef4444; --fondo: #f8fafc; }
-        body { font-family: sans-serif; text-align: center; background-color: var(--fondo); margin: 0; padding: 15px; user-select: none; }
-        h1 { color: #1e293b; margin-bottom: 5px; font-size: 1.8rem; }
-        p { color: #64748b; font-size: 0.9rem; margin-bottom: 20px; }
-        .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; max-width: 500px; margin: 0 auto; }
-        .numero { aspect-ratio: 1 / 1; background-color: #fff; border: 1px solid #cbd5e1; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; font-size: 1.1rem; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); -webkit-tap-highlight-color: transparent; }
-        .numero:active { background-color: #e2e8f0; transform: scale(0.95); }
-        .ocupado { background-color: #fee2e2; border-color: var(--ocupado); color: var(--ocupado); }
-        .controles { margin-top: 40px; padding-bottom: 40px; }
-        .btn-limpiar { padding: 15px 30px; background-color: #475569; color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; width: 80%; max-width: 300px; }
+        :root { --primario: #2563eb; --ocupado: #ef4444; --fondo: #f1f5f9; }
+        body { font-family: sans-serif; text-align: center; background-color: var(--fondo); margin: 0; padding: 10px; user-select: none; }
+        h1 { color: #1e293b; margin: 10px 0 5px 0; font-size: 1.5rem; }
+        p { color: #64748b; font-size: 0.8rem; margin-bottom: 15px; }
+        
+        /* Grilla más compacta: 6 columnas para que entren 30 números en poco espacio */
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(6, 1fr); 
+            gap: 5px; 
+            max-width: 380px; 
+            margin: 0 auto; 
+            background: white;
+            padding: 10px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+        
+        .numero { 
+            aspect-ratio: 1 / 1; 
+            background-color: #fff; 
+            border: 1px solid #e2e8f0; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-size: 0.9rem;
+            border-radius: 6px;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .numero:active { background-color: #f1f5f9; transform: scale(0.9); }
+
+        .ocupado { 
+            background-color: #fee2e2; 
+            border-color: var(--ocupado); 
+            color: var(--ocupado); 
+        }
+
+        .controles { margin-top: 25px; padding-bottom: 20px; }
+        
+        .btn-limpiar { 
+            padding: 12px; 
+            background-color: #64748b; 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            font-size: 0.9rem;
+            width: 70%;
+        }
     </style>
 </head>
 <body>
+
     <h1>Rifa Express</h1>
-    <p>Toca un número para anotar o ver quién compró.</p>
+    <p>Toca para anotar. Los ❌ ya están vendidos.</p>
+
     <div class="grid" id="contenedor-rifa"></div>
+
     <div class="controles">
-        <button class="btn-limpiar" onclick="limpiarTodo()">Reiniciar Rifa</button>
+        <button class="btn-limpiar" onclick="limpiarTodo()">Reiniciar Tablero</button>
     </div>
+
     <script>
         const contenedor = document.getElementById('contenedor-rifa');
-        const TOTAL_NUMEROS = 100;
-        let participantes = JSON.parse(localStorage.getItem('rifa_datos')) || {};
+        const TOTAL_NUMEROS = 30; // Ajustado a 30
+        let participantes = JSON.parse(localStorage.getItem('rifa_30_datos')) || {};
+
         function crearRifa() {
             contenedor.innerHTML = '';
             for (let i = 1; i <= TOTAL_NUMEROS; i++) {
@@ -38,25 +84,28 @@
                 contenedor.appendChild(div);
             }
         }
+
         function manejarAccion(numero) {
             if (participantes[numero]) {
-                alert("N° " + numero + ": " + participantes[numero]);
+                alert("N° " + numero + " comprado por: " + participantes[numero]);
             } else {
-                const nombre = prompt("Nombre del comprador para el número " + numero + ":");
+                const nombre = prompt("Nombre para el N° " + numero + ":");
                 if (nombre && nombre.trim() !== "") {
                     participantes[numero] = nombre.trim();
-                    localStorage.setItem('rifa_datos', JSON.stringify(participantes));
+                    localStorage.setItem('rifa_30_datos', JSON.stringify(participantes));
                     crearRifa();
                 }
             }
         }
+
         function limpiarTodo() {
-            if (confirm("¿Borrar todos los nombres?")) {
+            if (confirm("¿Vaciar los 30 números?")) {
                 participantes = {};
-                localStorage.removeItem('rifa_datos');
+                localStorage.removeItem('rifa_30_datos');
                 crearRifa();
             }
         }
+
         crearRifa();
     </script>
 </body>
