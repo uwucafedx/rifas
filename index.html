@@ -3,76 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Rifa Express 30</title>
+    <title>Rifa Express Aesthetic</title>
     <style>
-        :root { --primario: #2563eb; --ocupado: #ef4444; --fondo: #f1f5f9; }
-        body { font-family: sans-serif; text-align: center; background-color: var(--fondo); margin: 0; padding: 10px; user-select: none; }
-        h1 { color: #1e293b; margin: 10px 0 5px 0; font-size: 1.5rem; }
-        p { color: #64748b; font-size: 0.8rem; margin-bottom: 15px; }
+        :root { 
+            --primario: #2563eb; /* Azul moderno */
+            --ocupado: #ef4444; /* Rojo suave */
+            --fondo: #f8fafc;   /* Gris muy claro */
+            --texto: #1e293b;   /* Azul pizarra oscuro */
+            --gris: #94a3b8;    /* Gris medio */
+        }
         
-        /* Grilla más compacta: 6 columnas para que entren 30 números en poco espacio */
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            text-align: center; background-color: var(--fondo); margin: 0; padding: 15px; user-select: none; color: var(--texto);
+        }
+        
+        h1 { margin: 20px 0 5px 0; font-size: 1.8rem; font-weight: 800; }
+        p.subtitulo { color: var(--gris); font-size: 0.9rem; margin-bottom: 25px; }
+        
+        /* Grilla compacta y limpia */
         .grid { 
-            display: grid; 
-            grid-template-columns: repeat(6, 1fr); 
-            gap: 5px; 
-            max-width: 380px; 
-            margin: 0 auto; 
-            background: white;
-            padding: 10px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; 
+            max-width: 380px; margin: 0 auto; background: white; padding: 15px;
+            border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
         }
         
         .numero { 
-            aspect-ratio: 1 / 1; 
-            background-color: #fff; 
-            border: 1px solid #e2e8f0; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            cursor: pointer; 
-            font-weight: bold; 
-            font-size: 0.9rem;
-            border-radius: 6px;
-            -webkit-tap-highlight-color: transparent;
+            aspect-ratio: 1 / 1; background-color: #fff; border: 1px solid #e2e8f0; 
+            display: flex; align-items: center; justify-content: center; 
+            cursor: pointer; font-weight: 700; font-size: 1.1rem; border-radius: 10px;
+            transition: 0.2s; -webkit-tap-highlight-color: transparent;
         }
         
-        .numero:active { background-color: #f1f5f9; transform: scale(0.9); }
+        .numero:active { background-color: #f1f5f9; transform: scale(0.92); }
 
-        .ocupado { 
-            background-color: #fee2e2; 
-            border-color: var(--ocupado); 
-            color: var(--ocupado); 
+        .ocupado { background-color: #fee2e2; border-color: var(--ocupado); color: var(--ocupado); }
+
+        /* --- SISTEMA DE CARTEL PERSONALIZADO (MODAL) --- */
+        #custom-modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.75); /* Fondo oscuro suave */
+            align-items: center; justify-content: center; z-index: 1000;
+            backdrop-filter: blur(3px); /* Efecto borroso de fondo */
         }
-
-        .controles { margin-top: 25px; padding-bottom: 20px; }
         
-        .btn-limpiar { 
-            padding: 12px; 
-            background-color: #64748b; 
-            color: white; 
-            border: none; 
-            border-radius: 8px; 
-            font-size: 0.9rem;
-            width: 70%;
+        .modal-content {
+            background: white; padding: 30px; border-radius: 24px; width: 85%; max-width: 340px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            animation: aparecerModal 0.3s ease-out; text-align: left;
         }
+        @keyframes aparecerModal { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        
+        /* Estilos dentro del cartel */
+        .modal-content h3 { margin: 0 0 10px 0; font-size: 1.3rem; font-weight: 700; color: var(--texto); }
+        .modal-content p { font-size: 1rem; color: #475569; margin: 0 0 20px 0; line-height: 1.5; }
+        
+        /* Campo de texto estético para anotar */
+        #modal-input {
+            display: none; width: 100%; padding: 12px 15px; margin-bottom: 20px;
+            border: 2px solid #e2e8f0; border-radius: 10px; font-size: 1rem;
+            box-sizing: border-box; transition: 0.2s;
+        }
+        #modal-input:focus { border-color: var(--primario); outline: none; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+
+        /* Botones estéticos */
+        .modal-buttons { display: flex; gap: 10px; justify-content: flex-end; }
+        .btn { padding: 12px 20px; border-radius: 10px; font-weight: 600; font-size: 0.95rem; border: none; cursor: pointer; }
+        
+        .btn-primario { background-color: var(--primario); color: white; flex-grow: 1; }
+        .btn-primario:active { background-color: #1d4ed8; }
+        
+        .btn-secundario { background-color: #e2e8f0; color: #475569; }
+        .btn-secundario:active { background-color: #cbd5e1; }
+        
+        .btn-danger { background-color: var(--ocupado); color: white; flex-grow: 1; }
+        .btn-danger:active { background-color: #dc2626; }
+
+        /* Botón de limpiar abajo */
+        .controles { margin-top: 40px; padding-bottom: 30px; }
+        .btn-limpiar { padding: 12px; background-color: var(--gris); color: white; border: none; border-radius: 10px; width: 60%; font-size: 0.8rem; font-weight: 600; opacity: 0.7; }
+        .btn-limpiar:active { opacity: 1; background-color: #64748b; }
     </style>
 </head>
 <body>
 
     <h1>Rifa Express</h1>
-    <p>Toca para anotar. Los ❌ ya están vendidos.</p>
+    <p class="subtitulo">Toca un número para gestionar la venta.</p>
 
     <div class="grid" id="contenedor-rifa"></div>
 
+    <div id="custom-modal">
+        <div class="modal-content">
+            <h3 id="modal-titulo">Gestión</h3>
+            <p id="modal-texto"></p>
+            
+            <input type="text" id="modal-input" placeholder="Nombre completo...">
+            
+            <div class="modal-buttons" id="modal-actions">
+                </div>
+        </div>
+    </div>
+
     <div class="controles">
-        <button class="btn-limpiar" onclick="limpiarTodo()">Reiniciar Tablero</button>
+        <button class="btn-limpiar" onclick="pedirLimpieza()">Reiniciar Tablero</button>
     </div>
 
     <script>
         const contenedor = document.getElementById('contenedor-rifa');
-        const TOTAL_NUMEROS = 30; // Ajustado a 30
+        const modal = document.getElementById('custom-modal');
+        const modalTitulo = document.getElementById('modal-titulo');
+        const modalTexto = document.getElementById('modal-texto');
+        const modalInput = document.getElementById('modal-input');
+        const modalActions = document.getElementById('modal-actions');
+        
+        const TOTAL_NUMEROS = 30;
         let participantes = JSON.parse(localStorage.getItem('rifa_30_datos')) || {};
+        let numeroEnGestion = null;
 
         function crearRifa() {
             contenedor.innerHTML = '';
@@ -86,24 +132,67 @@
         }
 
         function manejarAccion(numero) {
+            numeroEnGestion = numero;
+            modalInput.value = ''; // Limpiar input anterior
+            
             if (participantes[numero]) {
-                alert("N° " + numero + " comprado por: " + participantes[numero]);
+                // MODO VER COMPRADOR: Cartel estético y limpio
+                mostrarModal("Número " + numero, "Este número ha sido comprado por:", false, "cerrar");
+                modalTexto.innerHTML += "<br><strong style='font-size:1.3rem; color:#1e293b;'>" + participantes[numero] + "</strong>";
             } else {
-                const nombre = prompt("Nombre para el N° " + numero + ":");
-                if (nombre && nombre.trim() !== "") {
-                    participantes[numero] = nombre.trim();
-                    localStorage.setItem('rifa_30_datos', JSON.stringify(participantes));
-                    crearRifa();
-                }
+                // MODO ANOTAR: Cartel estético con input integrado
+                mostrarModal("Vender Número " + numero, "¿A quién le asignarás este número?", true, "confirmarCompra");
             }
         }
 
-        function limpiarTodo() {
-            if (confirm("¿Vaciar los 30 números?")) {
-                participantes = {};
-                localStorage.removeItem('rifa_30_datos');
-                crearRifa();
+        // Función para configurar y abrir el cartel estético
+        function mostrarModal(titulo, texto, mostrarInput, tipoBotones) {
+            modalTitulo.innerText = titulo;
+            modalTexto.innerHTML = texto;
+            modalInput.style.display = mostrarInput ? 'block' : 'none';
+            if (mostrarInput) setTimeout(() => modalInput.focus(), 100); // Foco automático en celular
+            
+            // Generar botones según la acción
+            modalActions.innerHTML = ''; 
+            if (tipoBotones === "cerrar") {
+                modalActions.innerHTML = '<button class="btn btn-primario" onclick="cerrarModal()">Aceptar</button>';
+            } else if (tipoBotones === "confirmarCompra") {
+                modalActions.innerHTML = '<button class="btn btn-secundario" onclick="cerrarModal()">Cancelar</button>';
+                modalActions.innerHTML += '<button class="btn btn-primario" onclick="confirmarVenta()">Vender</button>';
+            } else if (tipoBotones === "confirmarLimpieza") {
+                modalActions.innerHTML = '<button class="btn btn-secundario" onclick="cerrarModal()">No, cancelar</button>';
+                modalActions.innerHTML += '<button class="btn btn-danger" onclick="limpiarTodo()">Sí, borrar todo</button>';
             }
+            
+            modal.style.display = 'flex';
+        }
+
+        function cerrarModal() {
+            modal.style.display = 'none';
+        }
+
+        function confirmarVenta() {
+            const nombre = modalInput.value;
+            if (nombre && nombre.trim() !== "") {
+                participantes[numeroEnGestion] = nombre.trim();
+                localStorage.setItem('rifa_30_datos', JSON.stringify(participantes));
+                crearRifa();
+                cerrarModal();
+            } else {
+                modalInput.style.borderColor = "#ef4444"; // Alerta visual de campo vacío
+            }
+        }
+
+        function pedirLimpieza() {
+            // Reemplazamos el confirm() aburrido por el cartel estético
+            mostrarModal("¿Reiniciar Rifa?", "¿Estás seguro? Se borrarán todos los nombres permanentemente.", false, "confirmarLimpieza");
+        }
+
+        function limpiarTodo() {
+            participantes = {};
+            localStorage.removeItem('rifa_30_datos');
+            crearRifa();
+            cerrarModal();
         }
 
         crearRifa();
